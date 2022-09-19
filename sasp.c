@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define debut
 #define N_Pr 200 //reservation
 
 
@@ -171,28 +172,32 @@ void WrongChoice(){
 
 
 
-void Thanks(){
-    printf("\t\t\t\tMERCI POUR VOTRE VISITE");
+
+void AfterProcess(){
+    int c;
+
+    do {
+        printf("\t\t\t\t1. Menu principal\n\t\t\t\t 2. Quittez l'application \t\t\t\t\n");
+        scanf("%d",&c);
+        if (c<1 || c>2)
+            WrongChoice();
+        }while(c<1 || c>2);
+        if(c==1){
+         main();}
+        else if(c==2){
+           Exxit(); }
 }
 
+void Exxit(){
 
-//void AfterProcess(){
-//    int c;
-//
-//    do {
-//        printf("\t\t\t\t1. Menu principal\n\t\t\t\t 2. Quittez l'application \t\t\t\t\n");
-//        scanf("%d",&c);
-//        if (c<1 || c>2)
-//            WrongChoice();
-//        }while(c<1 || c>2);
-//
-//}
+        printf("\t\t\t\tMERCI POUR VOTRE VISITE");
+        exit(0);
+}
 
 
 int main(){
         int choice,c;
 
-debut :
     do{
         Menu();
         int choice=Choice();
@@ -201,60 +206,74 @@ debut :
         switch(choice){
             case 1:
                 AddNewProduct();
+                AfterProcess();
             break;
 
 
             case 2:
                 AddMoreThanOneProduct();
+                AfterProcess();
+
             break;
 
 
-//            case 3:
-//                Display();
+////            case 3:
+////                Display();
+//                AfterProcess();
+//
+////            break;
+////
+////
+////            case 4:
+////                BuyProduct();
+//                AfterProcess();
+//
+////            break;
+////
+////
+//            case 5:
+//                SearchProduct();
+//                AfterProcess();
+//
 //            break;
+////
+////
+////            case 6:
+////                StockStatus();
+//                AfterProcess();
 //
+////            break;
+////
+////
+////            case 7:
+////                FeedStock();
+//                AfterProcess();
 //
-//            case 4:
-//                BuyProduct();
-//            break;
+////            break;
+////
+////
+////            case 8:
+////                Delete();
+//                AfterProcess();
 //
+////            break;
+////
+////
+////            case 9:
+////                SaleStatistics();
+//                AfterProcess();
 //
-            case 5:
-                SearchProduct();
-            break;
-//
-//
-//            case 6:
-//                StockStatus();
-//            break;
-//
-//
-//            case 7:
-//                FeedStock();
-//            break;
-//
-//
-//            case 8:
-//                Delete();
-//            break;
-//
-//
-//            case 9:
-//                SaleStatistics();
-//            break;
+////            break;
+            case 10:
+                Exxit();
+                break;
 
             default:
-                if(choice==10)
-                {Thanks();}
-                else{WrongChoice();}
+               WrongChoice();
             break;
           }
 
-       }while(choice==10);
-
-
-
-
+       }while(choice<1 || choice>10);
 
     return 0;
 }
