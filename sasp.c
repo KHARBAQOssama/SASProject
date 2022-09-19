@@ -12,10 +12,13 @@ typedef struct {//structure contient les infos d'un produit
 
 
 Product product[N_Pr];//reservation d'une array de type Product
-int tSize=0; // utilisé comme indice des produit existés
+int tSize=0,i; // utilisé comme indice des produit existés
 
 
-
+int CalculateTtcPrice(){
+    product[tSize].ttcPrice+= product[tSize].productPrice * 0.15;
+    return product[tSize].ttcPrice;
+}
 
 
 void Menu(){//fonction permet d'afficher les choix des operations
@@ -59,11 +62,19 @@ void AddNewProduct(){//fonction permet d'entrer les donnees
 
 }
 
-//
-//
-//void AddMoreThanOneProduct(){
-//
-//}
+
+
+
+void AddMoreThanOneProduct(){ //fonction permet l'utilisateur d'entrer plusieurs produits
+    int nProducts; //nombre des produits qui l'utilisateur va ajouter
+    printf("\n Entre le nombre des produits que vous voulez ajouter : ");
+    scanf("%d",& nProducts);
+
+    for (i=0;i<nProducts;i++){
+        printf("Entrer les données du produit %d",i+1);
+        AddNewProduct();
+    }
+}
 //
 //
 //
@@ -109,20 +120,20 @@ void AddNewProduct(){//fonction permet d'entrer les donnees
 
 int main(){
 
- //   do{
+    do{
         Menu();
         int choice=Choice();
 
 
-//        switch(choice){
-//            case 1:
-//                AddNewProduct();
-//            break;
-//
-//
-//            case 2:
-//                AddMoreThanProduct();
-//            break;
+        switch(choice){
+            case 1:
+                AddNewProduct();
+            break;
+
+
+            case 2:
+                AddMoreThanProduct();
+            break;
 //
 //
 //            case 3:
