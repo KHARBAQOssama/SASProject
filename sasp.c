@@ -10,7 +10,7 @@ typedef struct {//structure contient les infos d'un produit
     char productCode[30];
     int productQuantity;
     float productPrice;
-    float ttcPrice;
+    float ttcPrice;//=productPrice*0.15;
                         }Product;
 
 
@@ -20,9 +20,9 @@ int tSize=0,i; // utilisé comme indice des produit existés
 
 
 
-int CalculateTtcPrice(){//fonction permet de calculer le prix TTC
-    product[tSize].ttcPrice+= product[tSize].productPrice * 0.15;
-    return product[tSize].ttcPrice;
+float CalculateTtcPrice(int i){//fonction permet de calculer le prix TTC
+    product[i].ttcPrice= product[i].productPrice+product[i].productPrice * 0.15;
+    return product[i].ttcPrice;
 }
 
 
@@ -88,31 +88,71 @@ void AddMoreThanOneProduct(){ //fonction permet l'utilisateur d'entrer plusieurs
 }
 
 
-//void Display1(){
-//        int c
-//            do {
-//        printf("\t\t\t\tLister les produit selon ordre :\n\t\t\t\t");
-//        printf("1. alphabetique croissant du nom\t\t\t\t\n2. decroissant du prix\t\t\t\t\n");
-//        scanf("%d",&c);
-//        if (c<1 || c>2)
-//            WrongChoice();
-//        }while(c<1 || c>2);
-//
-//
-//}
+void Ordre (int i,int j){
+    char helper [30];
+    int q,p;
+                    strcpy(helper,product[j].productCode);
+                    strcpy(product[j].productCode,product[i].productCode);
+                    strcpy(product[i].productCode,helper);
 
+                    strcpy(helper,product[j].productName);
+                    strcpy(product[j].productName,product[i].productName);
+                    strcpy(product[i].productName,helper);
 
-void Display2(tSize){
+                    q=product[j].productQuantity;
+                    product[j].productQuantity=product[i].productQuantity;
+                    product[i].productQuantity=q;
 
-		printf("\t\t\t\tnom: %s\n",product[tSize].productName);
-		printf("\t\t\t\tcode : %s\n",product[tSize].productCode);
-		printf("\t\t\t\tquantité: %d\n",product[tSize].productQuantity);
-		printf("\t\t\t\tprix: %2.f MAD\n",product[tSize].productPrice);
-        printf("\t\t\t\tTTC prix: %2.f MAD\n",CalculateTtcPrice());
-		printf("\t\t\t\t__________________________________\n \n \n");
+                    p=product[j].productPrice;
+                    product[j].productPrice=product[i].productPrice;
+                    product[i].productPrice=p;
 }
 
 
+void Display(){
+
+        int c,i,j;
+
+            do {
+        printf("\t\t\t\tLister les produit selon ordre :\n\t\t\t\t");
+        printf("1. alphabetique croissant du nom\t\t\t\t\n2. decroissant du prix\t\t\t\t\n");
+        scanf("%d",&c);
+        if (c<1 || c>2)
+            WrongChoice();
+        }while(c<1 || c>2);
+        if(c==1){
+            for(i=0;i<tSize;i++){
+                for(j=i+1;j<tSize;j++){
+                    if( strcmp(product[i].productName, product[j].productName)>0){
+                    Ordre (i,j);
+
+                    }
+                }
+            }
+        }else if(c==2){
+            for (i=0;i<tSize;i++){
+                    for(j=i+1;j<tSize;j++){
+               if( product[i].productPrice < product[j].productPrice){
+                    Ordre (i,j);
+                    }
+                }
+            }
+        }
+        for (i=0;i<tSize;i++){
+            Display1(i);
+        }
+}
+
+
+void Display1(tSize){// fonction permet l'affichage des donnees d'un produit pricise
+
+		printf("\t\t\t\tnom: %s\n",product[tSize].productName);
+		printf("\t\t\t\tcode : %s\n",product[tSize].productCode);
+		printf("\t\t\t\tquantite: %d\n",product[tSize].productQuantity);
+		printf("\t\t\t\tprix: %2.f MAD\n",product[tSize].productPrice);
+        printf("\t\t\t\tTTC prix: %2.f MAD\n",CalculateTtcPrice(tSize));
+		printf("\t\t\t\t__________________________________\n \n \n");
+}
 
 
 //void BuyProduct(){
@@ -135,7 +175,7 @@ void SearchProduct(){
         scanf("%s",code);
         for(i=0;i<tSize;i++){
             if (strcmp(code,product[i].productCode)==0){
-                Display2(i);
+                Display1(i);
             }
         }
     }
@@ -144,19 +184,41 @@ void SearchProduct(){
         scanf("%d",&c);
         for(i=0;i<tSize;i++){
             if (c==product[i].productQuantity){
-                Display2(i);
+                Display1(i);
             }
         }
     }
 }
 
-//
-//void StockStatus(){
-//
-//}
-//
-//void FeedStock(){
-//}
+
+void StockStatus(){
+    if(tSize==0){
+        printf("\t\t\t\tpas de produits actuellement !!!\n");
+    }else{
+    printf("\t\t\t\tles produits dont la quantite est inferieure a 3 sont :\n");
+    for(int i=0;i<tSize;i++){
+        if(product[i].productQuantity<3){
+
+            Display1(i);
+            }
+        }
+    }
+}
+
+void FeedStock(){
+    char fCode[30];
+    int qAdd;
+    printf("\t\t\t\tentrer le code du produit que vous voulez ajouter :\n\t\t\t\t");
+    scanf("%s",fCode);
+    printf("\t\t\t\tentrer la quantite que vous voulez ajouter :\n\t\t\t\t");
+    scanf("%d",&qAdd);
+    for (int i=0;i<tSize;i++){
+        if(strcmp(fCode,product[i].productCode)==0){
+            product[i].productQuantity+=qAdd;
+        }else{
+        printf("\t\t\t\tPas de produit a le code que vous avez entre");}
+    }
+}
 //
 //void Delete(){
 //}
@@ -177,20 +239,23 @@ void AfterProcess(){
     int c;
 
     do {
-        printf("\t\t\t\t1. Menu principal\n\t\t\t\t 2. Quittez l'application \t\t\t\t\n");
+        printf("\t\t\t\t1. Menu principal\n\t\t\t\t2. Quittez l'application\n\n\n\t\t\t\tVOTRE CHOIX : ");
         scanf("%d",&c);
         if (c<1 || c>2)
             WrongChoice();
         }while(c<1 || c>2);
         if(c==1){
+        system("cls");
          main();}
+
         else if(c==2){
            Exxit(); }
+
 }
 
 void Exxit(){
 
-        printf("\t\t\t\tMERCI POUR VOTRE VISITE");
+        printf("\t\t\t\tMERCI POUR VOTRE VISITE\n\n\n");
         exit(0);
 }
 
@@ -217,52 +282,52 @@ int main(){
             break;
 
 
-////            case 3:
-////                Display();
-//                AfterProcess();
-//
-////            break;
-////
-////
+            case 3:
+                Display();
+                AfterProcess();
+
+            break;
+
+
 ////            case 4:
 ////                BuyProduct();
 //                AfterProcess();
 //
 ////            break;
-////
-////
-//            case 5:
-//                SearchProduct();
-//                AfterProcess();
-//
-//            break;
-////
-////
-////            case 6:
-////                StockStatus();
-//                AfterProcess();
-//
-////            break;
-////
-////
-////            case 7:
-////                FeedStock();
-//                AfterProcess();
-//
-////            break;
-////
-////
+
+
+            case 5:
+                SearchProduct();
+                AfterProcess();
+
+            break;
+
+
+            case 6:
+                StockStatus();
+                AfterProcess();
+
+            break;
+
+
+            case 7:
+                FeedStock();
+                AfterProcess();
+
+            break;
+
+
 ////            case 8:
 ////                Delete();
 //                AfterProcess();
-//
+
 ////            break;
-////
-////
+
+
 ////            case 9:
 ////                SaleStatistics();
 //                AfterProcess();
-//
+
 ////            break;
             case 10:
                 Exxit();
