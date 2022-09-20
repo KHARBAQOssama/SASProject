@@ -155,9 +155,9 @@ void Display1(tSize){// fonction permet l'affichage des donnees d'un produit pri
 }
 
 
-//void BuyProduct(){
-//
-//}
+void BuyProduct(){
+
+}
 
 
 void SearchProduct(){
@@ -205,6 +205,7 @@ void StockStatus(){
     }
 }
 
+
 void FeedStock(){
     char fCode[30];
     int qAdd;
@@ -219,15 +220,28 @@ void FeedStock(){
         printf("\t\t\t\tPas de produit a le code que vous avez entre");}
     }
 }
-//
-//void Delete(){
-//}
-//
-//
-//void SaleStatistics(){
-//}
-//
-//
+
+
+void Delete(){
+    char pCode[30];
+    printf("entrer le code du produit que vous voulez supprimer :");
+    scanf("%s",pCode);
+    for (int i=0;i<tSize;i++){
+        if(strcmp(pCode,product[i].productCode)!=0){
+            printf("pas de produits a ce code");
+        }
+        else if(strcmp(pCode,product[i].productCode)==0){
+                product[i]=product[i+1];
+        tSize--;
+        }
+    }
+}
+
+
+void SaleStatistics(){
+}
+
+
 void WrongChoice(){
     printf("\t\t\t\tVotre choix est incorrect :\n");
 }
@@ -317,11 +331,11 @@ int main(){
             break;
 
 
-////            case 8:
-////                Delete();
-//                AfterProcess();
+            case 8:
+                Delete();
+                AfterProcess();
 
-////            break;
+            break;
 
 
 ////            case 9:
