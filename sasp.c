@@ -128,7 +128,7 @@ void Display(){
         } else {
             do {
         printf("\t\t\t\tLister les produit selon ordre :\n\t\t\t\t");
-        printf("1. alphabetique croissant du nom\t\t\t\t\n2. decroissant du prix\t\t\t\t\n");
+        printf("1. alphabetique croissant du nom\t\t\t\t\n\t\t\t\t2. decroissant du prix\t\t\t\t\n");
         scanf("%d",&c);
         if (c<1 || c>2){
             WrongChoice();}
@@ -283,9 +283,13 @@ void FeedStock(){//permet de mettre à jour la quantité après avoir introduit le 
     scanf("%d",&qAdd);
     for (int i=0;i<tSize;i++){
         if(strcmp(fCode,product[i].productCode)==0){
-            product[i].productQuantity+=qAdd;
-        }else{
-        printf("\t\t\t\tPas de produit a le code que vous avez entre");}
+            product[i].productQuantity+=qAdd;}
+            if(i==-tSize && strcmp(fCode,product[i].productCode)!=0){
+                printf("\t\t\t\tPas de produit a le code que vous avez entre");
+
+            }
+
+
     }
 }
 
@@ -315,13 +319,13 @@ void SaleStatistics(){
     printf("\t\t\t\t les ventes sont :\n");
     for (int i=0;i<v;i++){
         printf("\t\t\t\tProduit : %s\n",pSales[i]);
-        printf("\t\t\t\t Quantite vendue : %d              date: %d-%d-%d\n",qua[i],vTime[i][0],vTime[i][1],vTime[i][2]);
-        printf("\t\t\t\t Prix total : %f                   temps: %d:%d\n",ttlPricePr[i],vTime[i][4],vTime[i][3]);
+        printf("\t\t\t\t Quantite vendue : %d                  date: %d-%d-%d\n",qua[i],vTime[i][0],vTime[i][1],vTime[i][2]);
+        printf("\t\t\t\t Prix total : %.2f               temps: %d:%d\n",ttlPricePr[i],vTime[i][4],vTime[i][3]);
         printf("\t\t\t\t___________________________________________________\n");
     }
     printf("\t\t\t\t les statistiques  :\n");
-    printf("\t\t\t\t MIN: %f                  MAX:%f\n",CalculateMin(minPrice),CalculateMax(maxPrice));
-    printf("\t\t\t\t           MOYENNE: %f",CalculateMean(meanPrice));
+    printf("\t\t\t\t MIN: %.2f            MAX:%.2f\n",CalculateMin(minPrice),CalculateMax(maxPrice));
+    printf("\t\t\t\t        MOYENNE: %.2f\n",CalculateMean(meanPrice));
 
 
 }
