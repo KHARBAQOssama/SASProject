@@ -4,6 +4,10 @@
 #define debut
 #define N_Pr 200 //reservation
 
+//reservation d'une array de type Product
+int tSize=0; // utilisé comme indice des produit existés
+int nSales=0;
+
 
 typedef struct {//structure contient les infos d'un produit
     char productName[30];
@@ -12,11 +16,22 @@ typedef struct {//structure contient les infos d'un produit
     float productPrice;
     float ttcPrice;//=productPrice*0.15;
                         }Product;
+Product product[N_Pr];
+
+//typedef struct {
+//
+//    float ttlPrice;
+//    float ttlPricePr[tSize];
+//    float minPrice;
+//    float maxPrice;
+//    float meanPrice;
+//
+//}Sales;
+//
+//Sales saleStat[];
 
 
 
-Product product[N_Pr];//reservation d'une array de type Product
-int tSize=0,i; // utilisé comme indice des produit existés
 
 
 
@@ -81,7 +96,7 @@ void AddMoreThanOneProduct(){ //fonction permet l'utilisateur d'entrer plusieurs
     scanf("%d",& nProducts);
     system("cls");
 
-    for (i=0;i<nProducts;i++){
+    for (int i=0;i<nProducts;i++){
         printf("\t\t\t\tEntrer les données du produit %d\n",i+1);
         AddNewProduct();
     }
@@ -112,14 +127,17 @@ void Ordre (int i,int j){
 void Display(){
 
         int c,i,j;
-
+        if (tSize<=0){
+            printf("pas de produit pour le moment ");
+        } else {
             do {
         printf("\t\t\t\tLister les produit selon ordre :\n\t\t\t\t");
         printf("1. alphabetique croissant du nom\t\t\t\t\n2. decroissant du prix\t\t\t\t\n");
         scanf("%d",&c);
-        if (c<1 || c>2)
-            WrongChoice();
+        if (c<1 || c>2){
+            WrongChoice();}
         }while(c<1 || c>2);
+
         if(c==1){
             for(i=0;i<tSize;i++){
                 for(j=i+1;j<tSize;j++){
@@ -140,7 +158,7 @@ void Display(){
         }
         for (i=0;i<tSize;i++){
             Display1(i);
-        }
+        }}
 }
 
 
@@ -156,8 +174,22 @@ void Display1(tSize){// fonction permet l'affichage des donnees d'un produit pri
 
 
 void BuyProduct(){
+    int q;
+    char pCode[30];
+    printf("entrer le code du produit que vous voulez acheter : ");
+    scanf("%s",pCode);
+    printf("entre la quantite :");
+    scanf("%d",&q);
+    for( int i=0;i<tSize;i++){
+        if (strcmp(pCode,product[i].productCode)==0){
+            if(q>product[i].productQuantity){
+                printf("|!| le stock est insuffisant |!|");
+            }else if (q<=product[i].productQuantity){
+                product[i].productQuantity-=q;
+                if(product[i].productQuantity==0){
+                  Delete();}
+}}}}
 
-}
 
 
 void SearchProduct(){
@@ -173,7 +205,7 @@ void SearchProduct(){
     if(c==1){
         printf("\t\t\t\tEntrer le Code du produit :\n\t\t\t\t");
         scanf("%s",code);
-        for(i=0;i<tSize;i++){
+        for(int i=0;i<tSize;i++){
             if (strcmp(code,product[i].productCode)==0){
                 Display1(i);
             }
@@ -182,7 +214,7 @@ void SearchProduct(){
     else if(c==2){
         printf("\t\t\t\tEntrer la quantite du produit :\n\t\t\t\t");
         scanf("%d",&c);
-        for(i=0;i<tSize;i++){
+        for(int i=0;i<tSize;i++){
             if (c==product[i].productQuantity){
                 Display1(i);
             }
@@ -237,6 +269,10 @@ void Delete(){
     }
 }
 
+
+void EverySell(){
+
+}
 
 void SaleStatistics(){
 }
@@ -303,11 +339,11 @@ int main(){
             break;
 
 
-////            case 4:
-////                BuyProduct();
-//                AfterProcess();
-//
-////            break;
+            case 4:
+                BuyProduct();
+                AfterProcess();
+
+            break;
 
 
             case 5:
