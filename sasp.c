@@ -27,7 +27,7 @@ typedef struct {//structure contient les infos d'un produit
 
 Product product[N_Pr];//reservation d'une array de type Product
 
-Product pSales[N_Pr];//reservation d'une array pour copie les produits qui sont achetée
+char pSales[N_Pr][30]; //reservation d'une array pour copie les noms des produits qui sont achetée
 
 
 
@@ -184,16 +184,14 @@ void BuyProduct(){
                 product[i].productQuantity-=q;
 
 
-                ttlPrice+=q*product[i].productPrice;
-                qu+=q;
-                meanPrice=ttlPrice/qu;
+                        ttlPrice+=q*product[i].productPrice;
+                        qu+=q;
 
                         time_t vDate=time(NULL);
                         struct tm *v_date=localtime(&vDate);
 
-                        int v=0;
                         ttlPricePr[v]+=q*product[i].productPrice;
-                        pSales[v]=product[i];
+                        strcpy(pSales[v],product[i].productName);
                         qua[v]=q;
                         vTime[v][0]=(v_date->tm_mday);
                         vTime[v][1]=(v_date->tm_mon)+1;
@@ -208,7 +206,7 @@ void BuyProduct(){
                   Delete();}//si la quanité est 0 alors il faux supprimer le produit
 }}}}
 
-int CalculateMin(minPrice){
+float CalculateMin(minPrice){
     for (int i=0;i<v;i++){
             for(int j=0;j<v;j++){
         if(ttlPricePr[i]<ttlPricePr[j]){
@@ -217,7 +215,7 @@ int CalculateMin(minPrice){
     }} return minPrice;
 }
 
-int CalculateMax(maxPrice){
+float CalculateMax(maxPrice){
     for (int i=0;i<v;i++){
             for(int j=0;j<v;j++){
         if(ttlPricePr[i]>ttlPricePr[j]){
@@ -225,7 +223,7 @@ int CalculateMax(maxPrice){
         }
     }} return maxPrice;}
 
-int CalculateMean(meanPrice){
+float CalculateMean(meanPrice){
     meanPrice=ttlPrice/qu;
     return meanPrice;
 }
@@ -279,9 +277,9 @@ void StockStatus(){//permet d’afficher les produits dont la quantité est inférie
 void FeedStock(){//permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à ajouter.
     char fCode[30];
     int qAdd;
-    printf("\t\t\t\tentrer le code du produit que vous voulez ajouter :\n\t\t\t\t");
+    printf("\t\t\t\t entrer le code du produit que vous voulez ajouter :\n\t\t\t\t");
     scanf("%s",fCode);
-    printf("\t\t\t\tentrer la quantite que vous voulez ajouter :\n\t\t\t\t");
+    printf("\t\t\t\t entrer la quantite que vous voulez ajouter :\n\t\t\t\t");
     scanf("%d",&qAdd);
     for (int i=0;i<tSize;i++){
         if(strcmp(fCode,product[i].productCode)==0){
@@ -311,25 +309,26 @@ void Delete(){//fonction permet de supprimer un produit a partir de se code
 
 void SaleStatistics(){
     if(v==0){
-        printf("pas de vente pour le moment");
+        printf("\t\t\t\t pas de vente pour le moment\n");
 
     }else {
-    printf("les ventes sont :");
+    printf("\t\t\t\t les ventes sont :\n");
     for (int i=0;i<v;i++){
-        printf("Produit : %s\n",pSales[i].productName);
-        printf("Quantite vendue : %d              date: %d-%d-%d\n",qua[i],vTime[i][0],vTime[i][1],vTime[i][2]);
-        printf("Prix total : %f                   temps: %d:%d\n",ttlPricePr[i],vTime[i][3],vTime[i][4]);
+        printf("\t\t\t\tProduit : %s\n",pSales[i]);
+        printf("\t\t\t\t Quantite vendue : %d              date: %d-%d-%d\n",qua[i],vTime[i][0],vTime[i][1],vTime[i][2]);
+        printf("\t\t\t\t Prix total : %f                   temps: %d:%d\n",ttlPricePr[i],vTime[i][4],vTime[i][3]);
+        printf("\t\t\t\t___________________________________________________\n");
     }
-    printf("les statistiques  :");
-    printf("MIN: %f                  MAX:%f\n",minPrice,maxPrice);
-    printf("           MOYENNE: %f",meanPrice);
+    printf("\t\t\t\t les statistiques  :\n");
+    printf("\t\t\t\t MIN: %f                  MAX:%f\n",CalculateMin(minPrice),CalculateMax(maxPrice));
+    printf("\t\t\t\t           MOYENNE: %f",CalculateMean(meanPrice));
 
 
 }
 }
 
 void WrongChoice(){
-    printf("\t\t\t\tVotre choix est incorrect :\n");
+    printf("\t\t\t\t Votre choix est incorrect :\n");
 }
 
 
@@ -356,7 +355,7 @@ void AfterProcess(){
 
 void Exxit(){
 
-        printf("\t\t\t\tMERCI POUR VOTRE VISITE\n\n\n");
+        printf("\t\t\t\t MERCI POUR VOTRE VISITE\n\n\n");
         exit(0);
 }
 
