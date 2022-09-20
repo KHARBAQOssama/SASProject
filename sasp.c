@@ -1,30 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dos.h>
 #include <time.h>
 #define N_Pr 200 //reservation
 
 
 int tSize=0; // utilisé comme indice des produit existés
-
 float ttlPrice=0;
 float ttlPricePr[N_Pr];
 float minPrice;
 float maxPrice;
 float meanPrice;
-
-int qua[N_Pr];
-
-int qu=0;
-
+int qua[N_Pr];// array qui stock la quantité vendue de chaque produit
+int qu=0;// count la quantité totale des ventes
 int vTime[N_Pr][5];// array pour stacker le temps
-
-//struct date d;
-//getdate(&d);
-//struct time t;
-//gettime(&t);
-
+int v=0;// un variable qui count le nombre des ventes
 
 typedef struct {//structure contient les infos d'un produit
     char productName[30];
@@ -198,15 +188,18 @@ void BuyProduct(){
                 qu+=q;
                 meanPrice=ttlPrice/qu;
 
+                        time_t vDate=time(NULL);
+                        struct tm *v_date=localtime(&vDate);
+
                         int v=0;
                         ttlPricePr[v]+=q*product[i].productPrice;
                         pSales[v]=product[i];
                         qua[v]=q;
-                        vTime[v][0]=
-                        vTime[v][1]=
-                        vTime[v][2]=
-                        vTime[v][3]=
-                        vTime[v][4]=
+                        vTime[v][0]=(v_date->tm_mday);
+                        vTime[v][1]=(v_date->tm_mon)+1;
+                        vTime[v][2]=(v_date->tm_year)+1900;
+                        vTime[v][3]=(v_date->tm_min);
+                        vTime[v][4]=(v_date->tm_hour);
 
                         v++;
 
@@ -215,7 +208,27 @@ void BuyProduct(){
                   Delete();}//si la quanité est 0 alors il faux supprimer le produit
 }}}}
 
+int CalculateMin(minPrice){
+    for (int i=0;i<v;i++){
+            for(int j=0;j<v;j++){
+        if(ttlPricePr[i]<ttlPricePr[j]){
+            minPrice=ttlPricePr[i];
+        }
+    }} return minPrice;
+}
 
+int CalculateMax(maxPrice){
+    for (int i=0;i<v;i++){
+            for(int j=0;j<v;j++){
+        if(ttlPricePr[i]>ttlPricePr[j]){
+            maxPrice=ttlPricePr[i];
+        }
+    }} return maxPrice;}
+
+int CalculateMean(meanPrice){
+    meanPrice=ttlPrice/qu;
+    return meanPrice;
+}
 
 void SearchProduct(){//fonction permet de trouver un produit à travers se code ou sa quantité
     int c,q;
@@ -297,9 +310,23 @@ void Delete(){//fonction permet de supprimer un produit a partir de se code
 
 
 void SaleStatistics(){
+    if(v==0){
+        printf("pas de vente pour le moment");
+
+    }else {
+    printf("les ventes sont :");
+    for (int i=0;i<v;i++){
+        printf("Produit : %s\n",pSales[i].productName);
+        printf("Quantite vendue : %d              date: %d-%d-%d\n",qua[i],vTime[i][0],vTime[i][1],vTime[i][2]);
+        printf("Prix total : %f                   temps: %d:%d\n",ttlPricePr[i],vTime[i][3],vTime[i][4]);
+    }
+    printf("les statistiques  :");
+    printf("MIN: %f                  MAX:%f\n",minPrice,maxPrice);
+    printf("           MOYENNE: %f",meanPrice);
+
 
 }
-
+}
 
 void WrongChoice(){
     printf("\t\t\t\tVotre choix est incorrect :\n");
@@ -398,11 +425,11 @@ int main(){
             break;
 
 
-////            case 9:
-////                SaleStatistics();
-//                AfterProcess();
+            case 9:
+                SaleStatistics();
+                AfterProcess();
 
-////            break;
+            break;
             case 10:
                 Exxit();
                 break;
