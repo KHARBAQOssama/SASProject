@@ -1,12 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define debut
+#include <dos.h>
+#include <time.h>
 #define N_Pr 200 //reservation
 
-//reservation d'une array de type Product
+
 int tSize=0; // utilisé comme indice des produit existés
-int nSales=0;
+
+float ttlPrice=0;
+float ttlPricePr[N_Pr];
+float minPrice;
+float maxPrice;
+float meanPrice;
+
+int qua[N_Pr];
+
+int qu=0;
+
+int vTime[N_Pr][5];// array pour stacker le temps
+
+//struct date d;
+//getdate(&d);
+//struct time t;
+//gettime(&t);
 
 
 typedef struct {//structure contient les infos d'un produit
@@ -16,22 +33,11 @@ typedef struct {//structure contient les infos d'un produit
     float productPrice;
     float ttcPrice;//=productPrice*0.15;
                         }Product;
-Product product[N_Pr];
-
-//typedef struct {
-//
-//    float ttlPrice;
-//    float ttlPricePr[tSize];
-//    float minPrice;
-//    float maxPrice;
-//    float meanPrice;
-//
-//}Sales;
-//
-//Sales saleStat[];
 
 
+Product product[N_Pr];//reservation d'une array de type Product
 
+Product pSales[N_Pr];//reservation d'une array pour copie les produits qui sont achetée
 
 
 
@@ -176,23 +182,42 @@ void Display1(tSize){// fonction permet l'affichage des donnees d'un produit pri
 void BuyProduct(){
     int q;
     char pCode[30];
-    printf("entrer le code du produit que vous voulez acheter : ");
+    printf("\n\t\t\t\entrer le code du produit que vous voulez acheter : ");
     scanf("%s",pCode);
-    printf("entre la quantite :");
+    printf("\n\t\t\t\entre la quantite :");
     scanf("%d",&q);
     for( int i=0;i<tSize;i++){
         if (strcmp(pCode,product[i].productCode)==0){
             if(q>product[i].productQuantity){
-                printf("|!| le stock est insuffisant |!|");
+                printf("\n\t\t\t\t|!| le stock est insuffisant |!|");
             }else if (q<=product[i].productQuantity){
                 product[i].productQuantity-=q;
+
+
+                ttlPrice+=q*product[i].productPrice;
+                qu+=q;
+                meanPrice=ttlPrice/qu;
+
+                        int v=0;
+                        ttlPricePr[v]+=q*product[i].productPrice;
+                        pSales[v]=product[i];
+                        qua[v]=q;
+                        vTime[v][0]=
+                        vTime[v][1]=
+                        vTime[v][2]=
+                        vTime[v][3]=
+                        vTime[v][4]=
+
+                        v++;
+
+
                 if(product[i].productQuantity==0){
-                  Delete();}
+                  Delete();}//si la quanité est 0 alors il faux supprimer le produit
 }}}}
 
 
 
-void SearchProduct(){
+void SearchProduct(){//fonction permet de trouver un produit à travers se code ou sa quantité
     int c,q;
     char code[30];
 
@@ -223,7 +248,7 @@ void SearchProduct(){
 }
 
 
-void StockStatus(){
+void StockStatus(){//permet d’afficher les produits dont la quantité est inférieure à 3.
     if(tSize==0){
         printf("\t\t\t\tpas de produits actuellement !!!\n");
     }else{
@@ -238,7 +263,7 @@ void StockStatus(){
 }
 
 
-void FeedStock(){
+void FeedStock(){//permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à ajouter.
     char fCode[30];
     int qAdd;
     printf("\t\t\t\tentrer le code du produit que vous voulez ajouter :\n\t\t\t\t");
@@ -254,13 +279,13 @@ void FeedStock(){
 }
 
 
-void Delete(){
+void Delete(){//fonction permet de supprimer un produit a partir de se code
     char pCode[30];
-    printf("entrer le code du produit que vous voulez supprimer :");
+    printf("\n\t\t\t\entrer le code du produit que vous voulez supprimer :");
     scanf("%s",pCode);
     for (int i=0;i<tSize;i++){
         if(strcmp(pCode,product[i].productCode)!=0){
-            printf("pas de produits a ce code");
+            printf("\n\t\t\t\tpas de produits a ce code");
         }
         else if(strcmp(pCode,product[i].productCode)==0){
                 product[i]=product[i+1];
@@ -270,11 +295,9 @@ void Delete(){
 }
 
 
-void EverySell(){
-
-}
 
 void SaleStatistics(){
+
 }
 
 
@@ -296,7 +319,8 @@ void AfterProcess(){
         }while(c<1 || c>2);
         if(c==1){
         system("cls");
-         main();}
+         main();
+        }
 
         else if(c==2){
            Exxit(); }
