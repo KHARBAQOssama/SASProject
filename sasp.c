@@ -185,6 +185,9 @@ void Display1(int a){// fonction permet l'affichage des donnees d'un produit pri
 void BuyProduct(){
     int q;
     char pCode[30];
+    if (tSize<=0){
+            printf("\t\t\t\t pas de produit pour le moment \n");
+        } else {
     printf("\n\t\t\t\entrer le code du produit que vous voulez acheter : ");
     scanf("%s",pCode);
     printf("\n\t\t\t\entre la quantite :");
@@ -218,10 +221,10 @@ void BuyProduct(){
                 if(product[i].productQuantity==0){//si la quanité est 0 alors il faux supprimer le produit
                   product[i]=product[i+1];
                   tSize--;}
-            }}} if(buy=true){
+            }}} if(buy==true){
             printf("\n\t\t\t\tl'operation a bien ete effectue");
              }
-    }
+    }}
 
 float CalculateMin(minPrice){// fonction pour calculer le prix minimal dans les produit vendus
     for (int i=0;i<v;i++){
@@ -253,7 +256,9 @@ float CalculateMean(meanPrice){//fonction pour calculer le moyenne
 void SearchProduct(){//fonction permet de trouver un produit à travers se code ou sa quantité
     int c;
     char code[30];
-
+    if (tSize<=0){
+            printf("\t\t\t\t pas de produit pour le moment \n");
+        } else {
     do {
         printf("\t\t\t\tVous voulez chercher par :\n\t\t\t\t 1. Code\n\t\t\t\t 2. Quantite\t\t\t\t\n");
         scanf("%d",&c);
@@ -269,7 +274,7 @@ void SearchProduct(){//fonction permet de trouver un produit à travers se code o
                 searchByC=true;
             }
         }
-        if(searchByC=false){
+        if(searchByC==false){
             printf("\n\t\t\t\t Pas de produit a ce code");
         }
     }
@@ -282,11 +287,11 @@ void SearchProduct(){//fonction permet de trouver un produit à travers se code o
                 searchByQ=true;
             }
         }
-        if(searchByQ=false){
+        if(searchByQ==false){
             printf("\n\t\t\t\t Pas de produit a cette quantite");
         }
     }
-}
+}}
 
 
 void StockStatus(){//permet d’afficher les produits dont la quantité est inférieure à 3.
@@ -297,7 +302,7 @@ void StockStatus(){//permet d’afficher les produits dont la quantité est inférie
         if(product[i].productQuantity<3){
             status=true;}
     }
-    if(status=true){
+    if(status==true){
     printf("\t\t\t\tles produits dont la quantite est inferieure a 3 sont :\n");
     for(int i=0;i<tSize;i++){
         if(product[i].productQuantity<3){
@@ -314,6 +319,9 @@ void StockStatus(){//permet d’afficher les produits dont la quantité est inférie
 void FeedStock(){//permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à ajouter.
     char fCode[30];
     int qAdd;
+    if (tSize<=0){
+            printf("\t\t\t\t pas de produit pour le moment \n");
+        } else {
     printf("\t\t\t\t entrer le code du produit que vous voulez ajouter :\n\t\t\t\t");
     scanf("%s",fCode);
     printf("\t\t\t\t entrer la quantite que vous voulez ajouter :\n\t\t\t\t");
@@ -323,30 +331,37 @@ void FeedStock(){//permet de mettre à jour la quantité après avoir introduit le 
             product[i].productQuantity+=qAdd;
             feed=true;}
             }
-        if(feed=false){
+        if(feed==false){
         printf("\t\t\t\tPas de produit a le code que vous avez entre");}
-        if(feed=true){
+        if(feed==true){
         printf("\t\t\t\t l'opperation a bien ete effectue");}
-    }
+    }}
 
 
 
 void Delete(){//fonction permet de supprimer un produit a partir de se code
     char pCode[30];
+    if (tSize<=0){
+            printf("\t\t\t\t pas de produit pour le moment \n");
+        } else {
     printf("\n\t\t\t\entrer le code du produit que vous voulez supprimer :");
     scanf("%s",pCode);
     for (int i=0;i<tSize;i++){
-            if(strcmp(pCode,product[i].productCode)==0){
+           if(strcmp(pCode,product[i].productCode)!=0){
+            continue;
+           }else if(strcmp(pCode,product[i].productCode)==0){
                 product[i]=product[i+1];
         tSize--;
         checkDelete=true;
+        break;
         }
     }
-    if(checkDelete=false){
-        printf("\t\t\t\tPas de produit a le code que vous avez entre");}
+    if(checkDelete==true){
+            printf("\t\t\t\t l'opperation a bien ete effectue");
+        }
     else{
-        printf("\t\t\t\t l'opperation a bien ete effectue");}
-    }
+        printf("\t\t\t\tPas de produit a le code que vous avez entre");}
+    }}
 
 
 
