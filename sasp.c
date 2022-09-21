@@ -28,7 +28,7 @@ int qu=0;// count la quantité totale des ventes
 
 int vTime[N_Pr][5];// array pour stacker le temps
 
-bool status=false,buy=false,searchByC=false,searchByQ=false,feed=false,checkDelete=false;
+bool status=false,buy=false,searchByC=false,searchByQ=false,feed=false,checkDelete=false;//Cela nous aide à savoir si l'opération a réussi ou non
 
 
 
@@ -244,14 +244,14 @@ float CalculateMax(maxPrice){// fonction pour calculer le prix maximal dans les 
     }} return maxPrice;}
 
 float CalculateMean(meanPrice){//fonction pour calculer le moyenne
-//    meanPrice=ttlPrice/qu;
-    meanPrice=ttlPrice/v;
+    meanPrice=ttlPrice/qu;
+//    meanPrice=ttlPrice/v;
 
     return meanPrice;
 }
 
 void SearchProduct(){//fonction permet de trouver un produit à travers se code ou sa quantité
-    int c,q;
+    int c;
     char code[30];
 
     do {
